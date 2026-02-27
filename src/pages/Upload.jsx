@@ -1,21 +1,15 @@
 import React, { useState } from "react";
 
-export default function Upload() {
+export default function Upload({ navigate, setSubmissionId }) {
 
   const [text, setText] = useState("");
-  const [submissionId, setSubmissionId] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleUpload = async () => {
 
-    if (!text.trim()) {
-      alert("Please enter submission text");
-      return;
-    }
+    setLoading(true);
 
     try {
-
-      setLoading(true);
 
       const response = await fetch(
         "https://rubricai-pro.onrender.com/api/upload",
@@ -30,54 +24,38 @@ export default function Upload() {
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Upload failed");
-      }
-
       const data = await response.json();
-
-      console.log("Submission ID:", data.submission_id);
 
       setSubmissionId(data.submission_id);
 
-      alert("Upload successful!");
+      navigate("dashboard");
 
     } catch (error) {
 
-      console.error(error);
-      alert("Upload failed. Check backend.");
-
-    } finally {
-
-      setLoading(false);
+      alert("Upload failed");
 
     }
+
+    setLoading(false);
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: 40 }}>
 
-      <h1>Upload Submission</h1>
+      <h2>Upload Submission</h2>
 
       <textarea
         rows="8"
         cols="60"
-        placeholder="Paste your submission here..."
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
 
       <br /><br />
 
-      <button onClick={handleUpload} disabled={loading}>
+      <button onClick={handleUpload}>
         {loading ? "Uploading..." : "Upload"}
       </button>
-
-      {submissionId && (
-        <div style={{ marginTop: "20px" }}>
-          <strong>Submission ID:</strong> {submissionId}
-        </div>
-      )}
 
     </div>
   );

@@ -1,34 +1,13 @@
 import React from "react";
-import { useAppContext } from "../context/AppContext";
 
-export default function Landing() {
-
-  const { setCurrentPage } = useAppContext();
+export default function Landing({ navigate }) {
 
   return (
-    <div style={{
-      height: "100vh",
-      width: "100vw",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "#0f172a",
-      color: "white"
-    }}>
+    <div style={{ padding: 40 }}>
 
-      <h1 style={{ fontSize: "48px", marginBottom: "20px" }}>
-        Rubric AI
-      </h1>
+      <h1>RubricAI Pro</h1>
 
-      <button
-        onClick={() => setCurrentPage("upload")}
-        style={{
-          padding: "12px 24px",
-          fontSize: "18px",
-          cursor: "pointer"
-        }}
-      >
+      <button onClick={() => navigate("upload")}>
         Start Evaluation
       </button>
 
